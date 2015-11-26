@@ -1,0 +1,22 @@
+*** /etc/my.cnf.orig    2015-10-12 15:46:39.000000000 +0900
+--- /etc/my.cnf 2015-11-26 12:36:09.882000381 +0900
+***************
+*** 25,27 ****
+--- 25,40 ----
+
+  log-error=/var/log/mysqld.log
+  pid-file=/var/run/mysqld/mysqld.pid
++
++ loose-validate-password= OFF
++
++ gtid_mode= ON
++ enforce_gtid_consistency= ON
++ log_bin= mysql-bin
++ log_slave_updates
++ master_info_repository= TABLE
++ relay_log_info_repository= TABLE
++ relay_log_recovery
++
++ [mysqld_safe]
++ auto-server-id
+

@@ -1,0 +1,38 @@
+*** /etc/mysql/fabric.cfg.orig  2015-09-16 00:56:04.000000000 +0900
+--- /etc/mysql/fabric.cfg       2015-11-26 10:43:36.712000379 +0900
+***************
+*** 45,47 ****
+  [protocol.xmlrpc]
+! disable_authentication = no
+  ssl_cert =
+--- 45,47 ----
+  [protocol.xmlrpc]
+! disable_authentication = yes
+  ssl_cert =
+***************
+*** 52,54 ****
+  user = admin
+! address = localhost:32274
+  password =
+--- 52,54 ----
+  user = admin
+! address = 0.0.0.0:32274
+  password =
+***************
+*** 64,66 ****
+  [protocol.mysql]
+! disable_authentication = no
+  ssl_cert =
+--- 64,66 ----
+  [protocol.mysql]
+! disable_authentication = yes
+  ssl_cert =
+***************
+*** 69,71 ****
+  user = admin
+! address = localhost:32275
+  password =
+--- 69,71 ----
+  user = admin
+! address = 0.0.0.0:32275
+  password =

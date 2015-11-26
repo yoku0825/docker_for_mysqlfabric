@@ -1,0 +1,33 @@
+*** /usr/bin/mysqld_safe.orig   2015-10-12 15:37:53.000000000 +0900
+--- /usr/bin/mysqld_safe        2015-11-26 12:32:58.777000379 +0900
+***************
+*** 85,86 ****
+--- 85,87 ----
+    --syslog-tag=TAG           Pass -t "mysqld-TAG" to 'logger'
++   --auto-server-id           Make server_id variable from IP Address 3rd and 4th byte.
+
+***************
+*** 210,211 ****
+--- 211,213 ----
+        --mysqld=*) MYSQLD="$val" ;;
++       --auto-server-id) AUTO_SERVER_ID="1" ;;
+        --mysqld-version=*)
+***************
+*** 634,635 ****
+--- 636,642 ----
+
++ ### Added by yoku0825.
++ if test "$AUTO_SERVER_ID" = "1" ; then
++   SERVER_ID="--server-id=$(getent hosts $(uname -n) | awk '{print $1}' | awk -F. '{id=$3 * 256 + $4; print id}')"
++ fi
++
+  if test ! -x "$ledir/$MYSQLD"
+***************
+*** 772,774 ****
+  for i in  "$ledir/$MYSQLD" "$defaults" "--basedir=$MY_BASEDIR_VERSION" \
+!   "--datadir=$DATADIR" "--plugin-dir=$plugin_dir" "$USER_OPTION"
+  do
+--- 779,781 ----
+  for i in  "$ledir/$MYSQLD" "$defaults" "--basedir=$MY_BASEDIR_VERSION" \
+!   "--datadir=$DATADIR" "--plugin-dir=$plugin_dir" "$SERVER_ID" "--report-host=$(uname -n)" "$USER_OPTION"
+  do
