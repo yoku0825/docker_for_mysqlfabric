@@ -1,9 +1,10 @@
-*** /etc/my.cnf.orig    2015-10-12 15:46:39.000000000 +0900
---- /etc/my.cnf 2015-11-26 10:30:12.520000377 +0900
+*** /etc/my.cnf.orig    2016-03-28 18:41:47.000000000 +0000
+--- /etc/my.cnf 2016-05-17 05:19:05.010000093 +0000
 ***************
 *** 25,27 ****
---- 25,28 ----
+--- 25,29 ----
 
   log-error=/var/log/mysqld.log
   pid-file=/var/run/mysqld/mysqld.pid
 + loose-validate-password= OFF
++ event_scheduler= ON
