@@ -2,8 +2,8 @@
 
 echo -n "Starting MySQL Fabric Server.."
 server_container_id=$(docker run -d --hostname="mysql-fabric" yoku0825/mysql_fabric_server)
-server_ip=$(docker inspect -f "{{.NetworkSettings.IPAddress}}" $server_container_id)
-mysqlfabric="docker run --rm yoku0825/mysql_fabric_command --param=protocol.xmlrpc.address=$server_ip:32274"
+export fabric=$(docker inspect -f "{{.NetworkSettings.IPAddress}}" $server_container_id)
+export mysqlfabric="docker run --rm yoku0825/mysql_fabric_command --param=protocol.xmlrpc.address=$fabric:32274"
 
 until $mysqlfabric manage ping > /dev/null 2>&1 ; do
   sleep 3
@@ -21,8 +21,10 @@ for n in $(seq 1 3) ; do
   done
   echo "done"
   $mysqlfabric group add myfabric $node_ip:3306 > /dev/null
+  export server${n}=$node_ip
 done
 
 $mysqlfabric group promote myfabric > /dev/null
 $mysqlfabric group activate myfabric > /dev/null
 $mysqlfabric group lookup_servers myfabric
+
