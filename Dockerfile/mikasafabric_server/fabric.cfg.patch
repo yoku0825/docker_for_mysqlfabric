@@ -1,0 +1,35 @@
+*** /etc/mysql/fabric.cfg.orig	2016-08-19 12:09:23.313000488 +0900
+--- /etc/mysql/fabric.cfg	2016-08-19 12:09:44.319000513 +0900
+***************
+*** 27,29 ****
+  [protocol.xmlrpc]
+! address = localhost:32274
+  threads = 5
+--- 27,29 ----
+  [protocol.xmlrpc]
+! address = 0.0.0.0:32274
+  threads = 5
+***************
+*** 31,33 ****
+  password = 
+! disable_authentication = no
+  realm = MySQL Fabric
+--- 31,33 ----
+  password = 
+! disable_authentication = yes
+  realm = MySQL Fabric
+***************
+*** 38,43 ****
+  [protocol.mysql]
+! address = localhost:32275
+  user = admin
+  password = 
+! disable_authentication = no
+  ssl_ca = 
+--- 38,43 ----
+  [protocol.mysql]
+! address = 0.0.0.0:32275
+  user = admin
+  password = 
+! disable_authentication = yes
+  ssl_ca = 
