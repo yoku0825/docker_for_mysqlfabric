@@ -6,7 +6,7 @@ RUN yum upgrade -y
 RUN test -d /tmp/setup || mkdir /tmp/setup
 RUN ln -sf /usr/share/zoneinfo/Japan /etc/localtime
 
-RUN yum install -y http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+RUN yum install -y http://dev.mysql.com/get/mysql57-community-release-el6-8.noarch.rpm
 RUN yum install -y mysql-community-server
 RUN service mysqld start
 
