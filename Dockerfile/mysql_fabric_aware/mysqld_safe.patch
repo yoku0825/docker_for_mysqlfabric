@@ -1,33 +1,60 @@
-*** /usr/bin/mysqld_safe.orig   2015-10-12 15:37:53.000000000 +0900
---- /usr/bin/mysqld_safe        2015-11-26 12:32:58.777000379 +0900
+*** mysqld_safe.orig	Fri Jun  8 19:36:54 2018
+--- mysqld_safe	Fri Sep  7 11:38:06 2018
 ***************
-*** 85,86 ****
---- 85,87 ----
+*** 89,94 ****
+--- 89,95 ----
+    --syslog                   Log messages to syslog with 'logger'
+    --skip-syslog              Log messages to error log (default)
     --syslog-tag=TAG           Pass -t "mysqld-TAG" to 'logger'
 +   --auto-server-id           Make server_id variable from IP Address 3rd and 4th byte.
-
+    --mysqld-safe-log-         TYPE must be one of UTC (ISO 8601 UTC),
+      timestamps=TYPE          system (ISO 8601 local time), hyphen
+                               (hyphenated date a la mysqld 5.6), legacy
 ***************
-*** 210,211 ****
---- 211,213 ----
-        --mysqld=*) MYSQLD="$val" ;;
-+       --auto-server-id) AUTO_SERVER_ID="1" ;;
-        --mysqld-version=*)
+*** 280,286 ****
+        --skip-syslog) want_syslog=0 ;;
+        --syslog-tag=*) syslog_tag="$val" ;;
+        --timezone=*) TZ="$val"; export TZ; ;;
+! 
+        --help) usage ;;
+  
+        *)
+--- 281,287 ----
+        --skip-syslog) want_syslog=0 ;;
+        --syslog-tag=*) syslog_tag="$val" ;;
+        --timezone=*) TZ="$val"; export TZ; ;;
+!       --auto-server-id) AUTO_SERVER_ID="1" ;;
+        --help) usage ;;
+  
+        *)
 ***************
-*** 634,635 ****
---- 636,642 ----
-
+*** 701,706 ****
+--- 702,712 ----
+    MYSQLD=mysqld
+  fi
+  
 + ### Added by yoku0825.
 + if test "$AUTO_SERVER_ID" = "1" ; then
 +   SERVER_ID="--server-id=$(getent hosts $(uname -n) | awk '{print $1}' | awk -F. '{id=$3 * 256 + $4; print id}')"
 + fi
-+
++ 
   if test ! -x "$ledir/$MYSQLD"
+  then
+    log_error "The file $ledir/$MYSQLD
 ***************
-*** 772,774 ****
+*** 859,865 ****
+  cmd="`mysqld_ld_preload_text`$NOHUP_NICENESS"
+  
   for i in  "$ledir/$MYSQLD" "$defaults" "--basedir=$MY_BASEDIR_VERSION" \
 !   "--datadir=$DATADIR" "--plugin-dir=$plugin_dir" "$USER_OPTION"
   do
---- 779,781 ----
+    cmd="$cmd "`shell_quote_string "$i"`
+  done
+--- 865,871 ----
+  cmd="`mysqld_ld_preload_text`$NOHUP_NICENESS"
+  
   for i in  "$ledir/$MYSQLD" "$defaults" "--basedir=$MY_BASEDIR_VERSION" \
 !   "--datadir=$DATADIR" "--plugin-dir=$plugin_dir" "$SERVER_ID" "--report-host=$(uname -n)" "$USER_OPTION"
   do
+    cmd="$cmd "`shell_quote_string "$i"`
+  done
